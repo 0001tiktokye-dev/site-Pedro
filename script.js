@@ -133,7 +133,7 @@ const initSmartStoreDemo = () => {
   const swatches = smartStore.querySelector("[data-store-swatches]");
 
   const storageKey = "studio-ia-smart-store-combination";
-  const fallbackImage = "images/combinacoes/placeholder.png";
+  const fallbackImage = "images/combinacoes/placeholder.jpg";
   let activeProductIndex = 0;
   let currentSelection = {
     vestido: "mostarda",
@@ -173,7 +173,7 @@ const initSmartStoreDemo = () => {
   };
 
   const getCombinationPath = () => {
-    return `images/combinacoes/vestido-${currentSelection.vestido}_bolsa-${currentSelection.bolsa}_tenis-${currentSelection.tenis}.png`;
+    return `images/combinacoes/vestido-${currentSelection.vestido}_bolsa-${currentSelection.bolsa}_tenis-${currentSelection.tenis}.jpg`;
   };
 
   const updateProductImage = () => {
