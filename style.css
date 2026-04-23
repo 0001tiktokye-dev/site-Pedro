@@ -2397,12 +2397,12 @@ button {
   .hero-visual .store-product-image {
     padding: 0.55rem 0.35rem 0.75rem;
     object-fit: contain !important;
-    object-position: center 48% !important;
-    transform: none !important;
+    object-position: center 38% !important;
+    transform: translateY(clamp(-38px, -8vw, -24px)) !important;
   }
 
   .hero-visual .store-product-card:hover .store-product-image {
-    transform: none !important;
+    transform: translateY(clamp(-38px, -8vw, -24px)) !important;
   }
 
   .hero-visual .store-tryon,
@@ -2787,6 +2787,11 @@ button {
   .hero-visual .store-product-image {
     object-fit: contain !important;
     object-position: center 38% !important;
+    transform: translateY(clamp(-38px, -8vw, -24px)) !important;
+  }
+
+  .hero-visual .store-product-card:hover .store-product-image {
+    transform: translateY(clamp(-38px, -8vw, -24px)) !important;
   }
 }
 
