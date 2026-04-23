@@ -2285,18 +2285,20 @@ button {
     right: 0.58rem;
     bottom: 0.58rem;
     left: 0.58rem;
+    width: auto;
+    height: auto;
     border-radius: 17px;
   }
 
   .store-product-image {
     padding: 0.28rem 0.42rem 0.2rem;
     object-fit: contain;
-    object-position: 64% 78%;
-    transform: translate(28px, 40px);
+    object-position: 66% 80%;
+    transform: translate(34px, 42px);
   }
 
   .store-product-card:hover .store-product-image {
-    transform: translate(28px, 40px);
+    transform: translate(34px, 42px);
   }
 
   .store-product-info {
