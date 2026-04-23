@@ -2238,7 +2238,7 @@ button {
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 519px) {
   .device-card {
     padding: 0.5rem;
     border-radius: 24px;
@@ -2274,7 +2274,7 @@ button {
   }
 
   .store-product-card {
-    min-height: 590px;
+    min-height: clamp(660px, 176vw, 720px);
     border-radius: 20px;
   }
 
@@ -2286,7 +2286,14 @@ button {
   }
 
   .store-product-image {
-    padding: 0.7rem 0.42rem 0.95rem;
+    padding: 0.85rem 0.42rem 1.35rem;
+    object-fit: contain;
+    object-position: center 40%;
+    transform: translateY(-18px);
+  }
+
+  .store-product-card:hover .store-product-image {
+    transform: translateY(-18px);
   }
 
   .store-product-info {
