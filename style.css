@@ -63,7 +63,7 @@ body::before,
 body::after {
   content: "";
   position: fixed;
-  z-index: -1;
+  z-index: 1;
   pointer-events: none;
   filter: blur(100px);
 }
@@ -770,7 +770,7 @@ button {
   right: 0;
   bottom: 0;
   left: auto;
-  z-index: -2;
+  z-index: 1;
   width: calc(100% - 9.6rem);
   height: 100%;
   border-radius: 22px;
@@ -779,6 +779,12 @@ button {
   object-fit: cover;
   object-position: center center;
   opacity: 1;
+  filter:
+    saturate(1.02)
+    contrast(1.04)
+    brightness(0.99)
+    drop-shadow(24px 18px 22px rgba(0, 0, 0, 0.18))
+    drop-shadow(-10px 10px 16px rgba(0, 0, 0, 0.1));
   transition: opacity var(--transition), transform var(--transition), filter var(--transition);
 }
 
@@ -787,7 +793,22 @@ button {
 }
 
 .store-product-card::after {
-  display: none;
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: calc(100% - 9.6rem);
+  z-index: 0;
+  border-radius: 22px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition), background var(--transition), backdrop-filter var(--transition);
+}
+
+.store-product-card::before,
+.store-product-card::after {
+  pointer-events: none;
 }
 
 .store-product-card::before {
@@ -797,17 +818,112 @@ button {
   right: 0;
   bottom: 0;
   width: calc(100% - 9.6rem);
-  z-index: 1;
-  border: 3px solid rgba(255, 255, 255, 0.16);
+  z-index: 2;
+  border: 2px solid rgba(255, 255, 255, 0.16);
   border-radius: 22px;
+  background:
+    radial-gradient(circle at 48% 12%, rgba(255, 255, 255, 0.14), transparent 22%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 18%, transparent 78%, rgba(0, 0, 0, 0.16)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 42%, rgba(0, 0, 0, 0.22));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 22px 60px rgba(0, 0, 0, 0.24);
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -26px 60px rgba(0, 0, 0, 0.18),
+    0 22px 60px rgba(0, 0, 0, 0.28);
+  mix-blend-mode: soft-light;
+}
+
+.store-product-card .store-product-info::before {
+  display: none;
+}
+
+.store-product-card .store-product-info::after {
+  content: "";
+  position: absolute;
+  right: -22.5rem;
+  bottom: 1.5rem;
+  width: 12.2rem;
+  height: 2.45rem;
+  z-index: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0.2) 42%, rgba(0, 0, 0, 0) 72%);
+  filter: blur(7px);
+  transform: rotate(-2deg);
   pointer-events: none;
 }
 
+.store-product-card .store-controls-panel::after {
+  display: none;
+}
+
+.store-product-card[data-scenario]::after {
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(14, 15, 19, 0.18)),
+    var(--scenario-image);
+  background-position: center;
+  background-size: cover;
+}
+
+.store-product-card[data-final-scenario="true"]::after {
+  opacity: 0;
+}
+
+.store-product-card[data-scenario="galeria"]::after {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 46% 14%, rgba(255, 255, 255, 0.28), transparent 22%),
+    linear-gradient(90deg, rgba(250, 250, 245, 0.2), transparent 32%, rgba(20, 24, 28, 0.1)),
+    linear-gradient(180deg, rgba(248, 250, 252, 0.08), rgba(15, 23, 42, 0.16)),
+    var(--scenario-image) center / cover no-repeat;
+}
+
+.store-product-card[data-scenario="concreto"]::after {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 48% 20%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(90deg, rgba(8, 10, 12, 0.26), transparent 42%, rgba(6, 8, 10, 0.24)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 38%, rgba(0, 0, 0, 0.2)),
+    var(--scenario-image) center / cover no-repeat;
+}
+
+.store-product-card[data-scenario="minimal"]::after {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 58% 15%, rgba(255, 255, 255, 0.22), transparent 25%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12), transparent 36%, rgba(31, 41, 55, 0.08)),
+    linear-gradient(180deg, rgba(229, 231, 235, 0.08), rgba(31, 41, 55, 0.1)),
+    var(--scenario-image) center / cover no-repeat;
+}
+
+.store-product-card[data-scenario="galeria"] .store-product-image {
+  filter:
+    saturate(1.02)
+    contrast(1.04)
+    brightness(1.02)
+    drop-shadow(22px 18px 22px rgba(0, 0, 0, 0.16))
+    drop-shadow(-8px 10px 15px rgba(0, 0, 0, 0.08));
+}
+
+.store-product-card[data-scenario="concreto"] .store-product-image {
+  filter:
+    saturate(0.98)
+    contrast(1.08)
+    brightness(0.96)
+    drop-shadow(26px 20px 24px rgba(0, 0, 0, 0.28))
+    drop-shadow(-7px 9px 14px rgba(0, 0, 0, 0.16));
+}
+
+.store-product-card[data-scenario="minimal"] .store-product-image {
+  filter:
+    saturate(0.98)
+    contrast(1.03)
+    brightness(1.04)
+    drop-shadow(20px 17px 20px rgba(0, 0, 0, 0.14))
+    drop-shadow(-8px 9px 14px rgba(0, 0, 0, 0.07));
+}
+
 .store-product-card:hover .store-product-image {
-  transform: none;
+  transform: translateY(clamp(-38px, -8vw, -24px));
 }
 
 .store-lightbox {
@@ -856,14 +972,84 @@ button {
   filter: none;
 }
 
+.store-lightbox__scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(14, 15, 19, 0.18)),
+    var(--scenario-image) center / cover no-repeat;
+}
+
+.store-lightbox__scene::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4.8%;
+  z-index: 1;
+  width: 42%;
+  height: 5.8%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0.2) 42%, rgba(0, 0, 0, 0) 72%);
+  filter: blur(7px);
+  transform: translateX(-50%) rotate(-2deg);
+  pointer-events: none;
+}
+
+.store-lightbox__scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 48% 12%, rgba(255, 255, 255, 0.14), transparent 22%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 18%, transparent 78%, rgba(0, 0, 0, 0.16)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 42%, rgba(0, 0, 0, 0.22));
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.store-lightbox__scene--galeria {
+  background:
+    radial-gradient(circle at 46% 14%, rgba(255, 255, 255, 0.28), transparent 22%),
+    linear-gradient(90deg, rgba(250, 250, 245, 0.2), transparent 32%, rgba(20, 24, 28, 0.1)),
+    linear-gradient(180deg, rgba(248, 250, 252, 0.08), rgba(15, 23, 42, 0.16)),
+    var(--scenario-image) center / cover no-repeat;
+}
+
+.store-lightbox__scene--concreto {
+  background:
+    radial-gradient(circle at 48% 20%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(90deg, rgba(8, 10, 12, 0.26), transparent 42%, rgba(6, 8, 10, 0.24)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 38%, rgba(0, 0, 0, 0.2)),
+    var(--scenario-image) center / cover no-repeat;
+}
+
+.store-lightbox__scene--minimal {
+  background:
+    radial-gradient(circle at 58% 15%, rgba(255, 255, 255, 0.22), transparent 25%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12), transparent 36%, rgba(31, 41, 55, 0.08)),
+    linear-gradient(180deg, rgba(229, 231, 235, 0.08), rgba(31, 41, 55, 0.1)),
+    var(--scenario-image) center / cover no-repeat;
+}
+
 .store-lightbox__image {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: center;
+  filter:
+    saturate(1.02)
+    contrast(1.04)
+    brightness(0.99)
+    drop-shadow(24px 18px 22px rgba(0, 0, 0, 0.18))
+    drop-shadow(-10px 10px 16px rgba(0, 0, 0, 0.1));
 }
 
 .store-lightbox__close {
@@ -985,7 +1171,15 @@ button {
   border: 2px solid rgba(255, 255, 255, 0.24);
   border-radius: 50%;
   background: var(--swatch-color);
+  background-position: center;
+  background-size: cover;
   transition: transform var(--transition), border-color var(--transition);
+}
+
+.store-swatch--image {
+  width: 30px;
+  height: 30px;
+  background-image: var(--swatch-image);
 }
 
 .store-swatch:hover,
@@ -1019,6 +1213,296 @@ button {
   font-size: 0.72rem;
   font-weight: 900;
   box-shadow: 0 14px 30px rgba(22, 163, 74, 0.18);
+}
+
+/* Loja Inteligente - vitrine premium mobile-first */
+.device-card {
+  padding: 0.75rem;
+  border-radius: 30px;
+}
+
+.device-screen {
+  padding: clamp(1rem, 3vw, 1.45rem);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(198, 169, 107, 0.13), transparent 26%),
+    radial-gradient(circle at 92% 8%, rgba(93, 125, 255, 0.12), transparent 24%),
+    linear-gradient(180deg, rgba(16, 18, 24, 0.98), rgba(12, 14, 19, 0.98) 48%, rgba(18, 21, 29, 0.98));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 34px 90px rgba(0, 0, 0, 0.36),
+    0 0 70px rgba(198, 169, 107, 0.08);
+}
+
+.store-intro {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.screen-badge {
+  min-height: 2rem;
+  padding: 0.35rem 0.72rem;
+  border-color: rgba(198, 169, 107, 0.18);
+  background: rgba(198, 169, 107, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.device-screen h2 {
+  max-width: 12ch;
+  margin: 0.78rem 0 0.5rem;
+  font-size: clamp(2rem, 8vw, 3.25rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+}
+
+.device-screen p {
+  max-width: 36ch;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+}
+
+.metrics {
+  position: static;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 1rem 0 0;
+}
+
+.metrics div {
+  min-width: 0;
+  padding: 0.74rem 0.66rem;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028));
+  border-color: rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.metrics strong {
+  font-size: clamp(0.95rem, 4vw, 1.12rem);
+  color: #ffffff;
+}
+
+.metrics span {
+  font-size: 0.62rem;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.smart-store-demo {
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.store-tabs {
+  justify-content: flex-start;
+  gap: 0.45rem;
+  padding: 0.2rem 0.05rem 0.3rem;
+}
+
+.store-tab {
+  min-height: 2.65rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.76rem;
+  letter-spacing: 0;
+}
+
+.store-tab:hover,
+.store-tab:focus-visible,
+.store-tab.is-active {
+  transform: translateY(-1px);
+  border-color: rgba(224, 196, 140, 0.78);
+  background:
+    linear-gradient(180deg, rgba(198, 169, 107, 0.22), rgba(198, 169, 107, 0.1));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 12px 24px rgba(0, 0, 0, 0.22),
+    0 0 22px rgba(198, 169, 107, 0.14);
+}
+
+.store-showcase {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.store-preview {
+  min-width: 0;
+}
+
+.store-product-card {
+  min-height: clamp(620px, 156vw, 780px);
+  padding: 0.75rem;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 24px 58px rgba(0, 0, 0, 0.28);
+}
+
+.store-product-image,
+.store-product-card::after,
+.store-product-card::before {
+  inset: 0.75rem;
+  width: auto;
+  height: auto;
+  border-radius: 20px;
+}
+
+.store-product-image {
+  padding: clamp(0.55rem, 2.2vw, 1.05rem);
+  object-fit: contain;
+  object-position: center 38%;
+  transform: translateY(clamp(-38px, -8vw, -24px));
+}
+
+.store-product-card::before {
+  border-width: 1px;
+}
+
+.store-product-info {
+  width: min(10.8rem, calc(100% - 1rem));
+  margin: 0 0 0.35rem;
+  padding: 0.85rem 0.82rem;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(14, 15, 19, 0.9), rgba(14, 15, 19, 0.76));
+  backdrop-filter: blur(18px);
+  transform: none;
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.store-product-card .store-product-info::after {
+  right: -12.8rem;
+  bottom: 0.95rem;
+  width: 11rem;
+}
+
+.store-product-tag {
+  font-size: 0.56rem;
+}
+
+.store-product-card strong {
+  font-size: 1.04rem;
+}
+
+.store-controls-panel {
+  position: static;
+  width: 100%;
+  z-index: 3;
+}
+
+.store-tryon {
+  min-height: auto;
+  padding: 0.84rem;
+  border-radius: 20px;
+  display: grid;
+  gap: 0.7rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028));
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+.store-tryon span {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.86);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.store-swatches {
+  gap: 0.48rem;
+}
+
+.store-swatch {
+  width: 30px;
+  height: 30px;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 8px 18px rgba(0, 0, 0, 0.22);
+}
+
+.store-swatch--image {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+}
+
+.store-swatch:hover,
+.store-swatch:focus-visible,
+.store-swatch.is-active {
+  transform: translateY(-2px) scale(1.06);
+  border-color: rgba(224, 196, 140, 0.95);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 10px 22px rgba(0, 0, 0, 0.26),
+    0 0 0 4px rgba(198, 169, 107, 0.12);
+}
+
+.store-footer {
+  gap: 0.62rem;
+  padding: 0.95rem;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(31, 168, 85, 0.14), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.028));
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.store-footer-kicker {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 1.8rem;
+  align-items: center;
+  padding: 0.25rem 0.62rem;
+  border-radius: 999px;
+  background: rgba(198, 169, 107, 0.11);
+  border: 1px solid rgba(198, 169, 107, 0.14);
+  color: var(--gold-hover);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.store-footer p {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.store-footer a {
+  min-height: 3.25rem;
+  align-items: center;
+  padding: 0.82rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(135deg, #25d366, #159947);
+  font-size: 0.82rem;
+  letter-spacing: -0.01em;
+  box-shadow:
+    0 16px 34px rgba(22, 163, 74, 0.28),
+    0 0 34px rgba(31, 168, 85, 0.16);
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+
+.store-footer a:hover,
+.store-footer a:focus-visible {
+  transform: translateY(-2px);
+  filter: saturate(1.06);
+  box-shadow:
+    0 22px 42px rgba(22, 163, 74, 0.32),
+    0 0 42px rgba(31, 168, 85, 0.2);
 }
 
 .pain-grid,
@@ -1751,6 +2235,94 @@ button {
 
   .hero-copy {
     padding-right: 2rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .device-card {
+    padding: 0.5rem;
+    border-radius: 24px;
+  }
+
+  .device-screen {
+    padding: 0.82rem;
+    border-radius: 22px;
+  }
+
+  .device-screen h2 {
+    max-width: 10.5ch;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.38rem;
+    margin-top: 0.85rem;
+  }
+
+  .metrics div {
+    padding: 0.58rem 0.42rem;
+  }
+
+  .metrics span {
+    font-size: 0.55rem;
+  }
+
+  .store-tab {
+    min-height: 2.4rem;
+    padding: 0.48rem 0.72rem;
+    font-size: 0.7rem;
+  }
+
+  .store-product-card {
+    min-height: 590px;
+    border-radius: 20px;
+  }
+
+  .store-product-image,
+  .store-product-card::after,
+  .store-product-card::before {
+    inset: 0.58rem;
+    border-radius: 17px;
+  }
+
+  .store-product-image {
+    padding: 0.7rem 0.42rem 0.95rem;
+  }
+
+  .store-product-info {
+    width: 9.4rem;
+    padding: 0.72rem;
+  }
+
+  .store-product-card .store-product-info::after {
+    right: -11.1rem;
+    bottom: 0.86rem;
+    width: 9.8rem;
+  }
+
+  .store-tryon,
+  .store-footer {
+    border-radius: 18px;
+  }
+}
+
+@media (min-width: 520px) {
+  .store-showcase {
+    gap: 0.9rem;
+  }
+
+  .store-product-card {
+    min-height: 740px;
+  }
+}
+
+@media (min-width: 980px) {
+  .device-screen h2 {
+    max-width: 11.5ch;
+  }
+
+  .store-product-card {
+    min-height: 790px;
   }
 }
 

@@ -52,6 +52,20 @@ const smartStoreProducts = [
       { label: "Preto", slug: "preto", color: "#2F3136" }
     ],
     glow: "rgba(93, 125, 255, 0.18)"
+  },
+  {
+    name: "Cenários IA",
+    price: "Galeria / editado / minimal",
+    category: "Cenários",
+    key: "cenario",
+    tag: "Ambiente visual",
+    proof: "Troque o clima da campanha para mostrar como o produto pode ganhar novas cenas com IA.",
+    variants: [
+      { label: "Galeria", slug: "galeria", color: "#D7D8D2", image: "images/cenarios/cenario-1.jpeg" },
+      { label: "Concreto escuro", slug: "concreto", color: "#3B403C", image: "images/cenarios/cenario-2.jpeg" },
+      { label: "Minimal claro", slug: "minimal", color: "#B9BAB5", image: "images/cenarios/cenario-3.jpeg" }
+    ],
+    glow: "rgba(152, 162, 179, 0.18)"
   }
 ];
 
@@ -131,6 +145,7 @@ const initSmartStoreDemo = () => {
   const productPrice = smartStore.querySelector("[data-product-price]");
   const productProof = smartStore.querySelector("[data-product-proof]");
   const swatches = smartStore.querySelector("[data-store-swatches]");
+  const controlLabel = smartStore.querySelector(".store-tryon span");
 
   const storageKey = "studio-ia-smart-store-combination";
   const fallbackImage = "images/combinacoes/placeholder.jpg";
@@ -138,7 +153,8 @@ const initSmartStoreDemo = () => {
   let currentSelection = {
     vestido: "mostarda",
     bolsa: "navy",
-    tenis: "branco"
+    tenis: "branco",
+    cenario: "concreto"
   };
 
   const readSavedSelection = () => {
@@ -172,14 +188,29 @@ const initSmartStoreDemo = () => {
     return smartStoreProducts[productIndex].variants[getSavedVariantIndex(productIndex)];
   };
 
+  const getSelectedScenario = () => {
+    const scenarioProduct = smartStoreProducts.find((product) => product.key === "cenario");
+    return scenarioProduct?.variants.find((variant) => variant.slug === currentSelection.cenario) || scenarioProduct?.variants[0];
+  };
+
   const getCombinationPath = () => {
-    return `images/combinacoes/vestido-${currentSelection.vestido}_bolsa-${currentSelection.bolsa}_tenis-${currentSelection.tenis}.jpg`;
+    return `images/combinacoes-recortadas/vestido-${currentSelection.vestido}_bolsa-${currentSelection.bolsa}_tenis-${currentSelection.tenis}.png`;
+  };
+
+  const applyScenario = () => {
+    if (!productCard) return;
+    const scenario = getSelectedScenario();
+
+    productCard.dataset.scenario = scenario?.slug || "concreto";
+    productCard.dataset.finalScenario = "false";
+    productCard.style.setProperty("--scenario-image", `url("${scenario?.image || "images/cenarios/cenario-1.jpeg"}")`);
   };
 
   const updateProductImage = () => {
     if (!productImage) return;
 
     const nextImage = getCombinationPath();
+    applyScenario();
     productImage.classList.add("is-changing");
 
     window.setTimeout(() => {
@@ -205,12 +236,18 @@ const initSmartStoreDemo = () => {
   const openStoreLightbox = () => {
     if (!storeLightbox || !storeLightboxStage || !productImage) return;
 
+    const scenario = getSelectedScenario();
+    const previewScene = document.createElement("div");
+    previewScene.className = `store-lightbox__scene store-lightbox__scene--${scenario?.slug || "concreto"}`;
+    previewScene.style.setProperty("--scenario-image", `url("${scenario?.image || "images/cenarios/cenario-1.jpeg"}")`);
+
     const previewImage = document.createElement("img");
     previewImage.src = productImage.currentSrc || productImage.src;
     previewImage.alt = productImage.alt || "Imagem ampliada da Loja Inteligente";
     previewImage.className = "store-lightbox__image";
 
-    storeLightboxStage.replaceChildren(previewImage);
+    previewScene.append(previewImage);
+    storeLightboxStage.replaceChildren(previewScene);
     storeLightbox.classList.add("is-open");
     storeLightbox.setAttribute("aria-hidden", "false");
     document.body.classList.add("lightbox-open");
@@ -228,15 +265,25 @@ const initSmartStoreDemo = () => {
       swatch.type = "button";
       swatch.className = `store-swatch${index === selectedVariantIndex ? " is-active" : ""}`;
       swatch.style.setProperty("--swatch-color", variant.color);
+      if (variant.image) {
+        swatch.classList.add("store-swatch--image");
+        swatch.style.setProperty("--swatch-image", `url("${variant.image}")`);
+      }
       swatch.setAttribute("aria-label", `Ver ${variant.label}`);
+      swatch.setAttribute("aria-pressed", index === selectedVariantIndex ? "true" : "false");
 
       swatch.addEventListener("click", () => {
-        swatches.querySelectorAll(".store-swatch").forEach((item) => item.classList.remove("is-active"));
+        swatches.querySelectorAll(".store-swatch").forEach((item) => {
+          item.classList.remove("is-active");
+          item.setAttribute("aria-pressed", "false");
+        });
         swatch.classList.add("is-active");
+        swatch.setAttribute("aria-pressed", "true");
         productCard.style.setProperty("--product-glow", variant.color);
         productProof.textContent = product.proof;
         currentSelection[product.key] = variant.slug;
         saveSelection();
+        applyScenario();
         updateProductImage();
       });
 
@@ -255,11 +302,16 @@ const initSmartStoreDemo = () => {
     productName.textContent = product.name;
     productPrice.textContent = product.price;
     productProof.textContent = product.proof;
+    if (controlLabel) {
+      controlLabel.textContent = product.key === "cenario" ? "Cenário visual" : "Provador virtual";
+    }
     productCard.style.setProperty("--product-glow", selectedVariant.color || product.glow);
+    applyScenario();
     updateProductImage();
 
     tabs.querySelectorAll(".store-tab").forEach((tab, tabIndex) => {
       tab.classList.toggle("is-active", tabIndex === index);
+      tab.setAttribute("aria-pressed", tabIndex === index ? "true" : "false");
     });
 
     renderSwatches(product, selectedVariantIndex);
@@ -270,6 +322,7 @@ const initSmartStoreDemo = () => {
     tab.type = "button";
     tab.className = `store-tab${index === 0 ? " is-active" : ""}`;
     tab.textContent = product.category;
+    tab.setAttribute("aria-pressed", index === 0 ? "true" : "false");
     tab.addEventListener("click", () => renderProduct(index));
     tabs.append(tab);
   });
