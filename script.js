@@ -194,7 +194,7 @@ const initSmartStoreDemo = () => {
   };
 
   const getCombinationPath = () => {
-    return `images/combinacoes-recortadas/vestido-${currentSelection.vestido}_bolsa-${currentSelection.bolsa}_tenis-${currentSelection.tenis}.png`;
+    return `images/combinacoes-recortadas/vestido-${currentSelection.vestido}_bolsa-${currentSelection.bolsa}_tenis-${currentSelection.tenis}.webp`;
   };
 
   const applyScenario = () => {
