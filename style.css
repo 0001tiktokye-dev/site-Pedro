@@ -2288,12 +2288,12 @@ button {
   .store-product-image {
     padding: 0.85rem 0.42rem 1.35rem;
     object-fit: contain;
-    object-position: center 40%;
-    transform: translateY(-18px);
+    object-position: center 54%;
+    transform: translateY(6px);
   }
 
   .store-product-card:hover .store-product-image {
-    transform: translateY(-18px);
+    transform: translateY(6px);
   }
 
   .store-product-info {
