@@ -2289,14 +2289,14 @@ button {
   }
 
   .store-product-image {
-    padding: 0.38rem 0.42rem 1.55rem;
+    padding: 0.28rem 0.42rem 0.2rem;
     object-fit: contain;
-    object-position: center 64%;
-    transform: translateY(18px);
+    object-position: center 72%;
+    transform: translateY(28px);
   }
 
   .store-product-card:hover .store-product-image {
-    transform: translateY(18px);
+    transform: translateY(28px);
   }
 
   .store-product-info {
