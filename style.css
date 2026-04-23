@@ -2302,9 +2302,12 @@ button {
   }
 
   .store-product-card .store-product-info::after {
-    right: -11.1rem;
-    bottom: 0.86rem;
-    width: 9.8rem;
+    right: -10.35rem;
+    bottom: 0.62rem;
+    width: 8.9rem;
+    height: 2.1rem;
+    filter: blur(6px);
+    transform: rotate(-1deg);
   }
 
   .store-tryon,
