@@ -2302,12 +2302,17 @@ button {
   }
 
   .store-product-card .store-product-info::after {
-    right: -10.35rem;
-    bottom: 0.62rem;
-    width: 8.9rem;
-    height: 2.1rem;
-    filter: blur(6px);
-    transform: rotate(-1deg);
+    right: -10.55rem;
+    bottom: 0.48rem;
+    width: 9.6rem;
+    height: 2.35rem;
+    background:
+      radial-gradient(ellipse at 50% 52%, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0.24) 34%, rgba(0, 0, 0, 0.12) 56%, rgba(0, 0, 0, 0) 76%),
+      radial-gradient(ellipse at 38% 58%, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0) 52%),
+      radial-gradient(ellipse at 68% 54%, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0) 48%);
+    filter: blur(5px);
+    opacity: 0.92;
+    transform: rotate(-1deg) scaleX(1.02);
   }
 
   .store-tryon,
